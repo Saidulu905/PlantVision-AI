@@ -1,0 +1,33 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Java / Maven
+**/target/
+**/target/*
+**/.mvn/
+.metadata/
+.recommenders/
+
+# Node / Frontend
+**/node_modules/
+**/dist/
+.npm
+.eslintcache
+
+# Logs and Env
+*.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
