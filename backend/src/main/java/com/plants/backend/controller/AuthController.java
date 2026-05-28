@@ -59,4 +59,31 @@ public class AuthController {
         
         return ResponseEntity.ok(response);
     }
+
+    @Autowired
+    private com.plants.backend.repository.UserRepository userRepository;
+
+    @Autowired
+    private com.plants.backend.repository.CartRepository cartRepository;
+
+    @Autowired
+    private com.plants.backend.repository.OrderRepository orderRepository;
+
+    @Autowired
+    private com.plants.backend.repository.DeliveryRepository deliveryRepository;
+
+    // Reset database: deletes all deliveries, orders, carts, and users
+    @GetMapping("/reset-users")
+    @org.springframework.transaction.annotation.Transactional
+    public ResponseEntity<?> resetUsers() {
+        deliveryRepository.deleteAll();
+        orderRepository.deleteAll();
+        cartRepository.deleteAll();
+        userRepository.deleteAll();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "All registered users, carts, orders, and deliveries have been deleted successfully!");
+        return ResponseEntity.ok(response);
+    }
 }
