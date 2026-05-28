@@ -76,14 +76,27 @@ public class AuthController {
     @GetMapping("/reset-users")
     @org.springframework.transaction.annotation.Transactional
     public ResponseEntity<?> resetUsers() {
-        deliveryRepository.deleteAll();
-        orderRepository.deleteAll();
-        cartRepository.deleteAll();
-        userRepository.deleteAll();
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "All registered users, carts, orders, and deliveries have been deleted successfully!");
-        return ResponseEntity.ok(response);
+        try {
+            deliveryRepository.deleteAll();
+            orderRepository.deleteAll();
+            cartRepository.deleteAll();
+            userRepository.deleteAll();
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "All registered users, carts, orders, and deliveries have been deleted successfully!");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Error deleting database records: " + e.getMessage());
+            
+            java.io.StringWriter sw = new java.io.StringWriter();
+            java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+            e.printStackTrace(pw);
+            response.put("stackTrace", sw.toString());
+            
+            return ResponseEntity.status(500).body(response);
+        }
     }
 }
