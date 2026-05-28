@@ -44,7 +44,8 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Auth public paths
+                // Public welcome diagnostics and Auth paths
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 // Plants and Categories catalog browsing are public
                 .requestMatchers(HttpMethod.GET, "/api/plants/**").permitAll()
