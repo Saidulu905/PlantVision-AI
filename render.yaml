@@ -56,9 +56,10 @@ services:
         value: https://plantvision-frontend.onrender.com
 
   # Frontend Vite React Static Site
-  - type: static
+  - type: web
     name: plantvision-frontend
     plan: free
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
