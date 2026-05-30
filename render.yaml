@@ -30,9 +30,15 @@ services:
     envVars:
       # Inject database connection variables dynamically from the MySQL web service
       - key: DB_HOST
-        value: plantvision-mysql-discovery
+        fromService:
+          type: web
+          name: plantvision-mysql
+          property: host
       - key: DB_PORT
-        value: 3306
+        fromService:
+          type: web
+          name: plantvision-mysql
+          property: port
       - key: DB_NAME
         value: plantvision
       - key: DB_USERNAME
