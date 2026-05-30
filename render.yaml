@@ -10,13 +10,13 @@ services:
       - key: PORT
         value: 3306
       - key: MYSQL_ROOT_PASSWORD
-        generate: true
+        generateValue: true
       - key: MYSQL_DATABASE
         value: plantvision
       - key: MYSQL_USER
         value: plantvision_user
       - key: MYSQL_PASSWORD
-        generate: true
+        generateValue: true
 
   # Backend Java Spring Boot Web Service
   - type: web
