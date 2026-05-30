@@ -4,7 +4,8 @@ services:
     name: plantvision-mysql
     plan: free
     runtime: image
-    image: mysql:8.0
+    image:
+      url: mysql:8.0
     envVars:
       - key: PORT
         value: 3306
