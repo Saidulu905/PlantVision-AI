@@ -1,15 +1,13 @@
 services:
-  # MySQL Private Service
-  - type: pserv
+  # MySQL Web Service (Free Tier Workaround)
+  - type: web
     name: plantvision-mysql
     plan: free
     runtime: image
     image: mysql:8.0
-    disk:
-      name: mysql-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
     envVars:
+      - key: PORT
+        value: 3306
       - key: MYSQL_ROOT_PASSWORD
         generate: true
       - key: MYSQL_DATABASE
@@ -28,15 +26,15 @@ services:
     dockerfilePath: Dockerfile
     dockerContext: .
     envVars:
-      # Inject database connection variables dynamically from the MySQL private service
+      # Inject database connection variables dynamically from the MySQL web service
       - key: DB_HOST
         fromService:
-          type: pserv
+          type: web
           name: plantvision-mysql
           property: host
       - key: DB_PORT
         fromService:
-          type: pserv
+          type: web
           name: plantvision-mysql
           property: port
       - key: DB_NAME
@@ -45,7 +43,7 @@ services:
         value: plantvision_user
       - key: DB_PASSWORD
         fromService:
-          type: pserv
+          type: web
           name: plantvision-mysql
           envVarKey: MYSQL_PASSWORD
       # Build the final JDBC URL using the injected host, port, and database name
