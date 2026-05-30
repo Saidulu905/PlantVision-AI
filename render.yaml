@@ -3,8 +3,8 @@ services:
   - type: pserv
     name: plantvision-mysql
     plan: free
-    runtime: docker
-    dockerImage: mysql:8.0
+    runtime: image
+    image: mysql:8.0
     disk:
       name: mysql-data
       mountPath: /var/lib/mysql
