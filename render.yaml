@@ -56,7 +56,6 @@ services:
   # Frontend Vite React Static Site
   - type: web
     name: plantvision-frontend
-    plan: free
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
