@@ -1,10 +1,24 @@
-databases:
-  - name: plantvision-db
-    databaseName: plantvision
-    user: plantvision_user
-    plan: free
-
 services:
+  # MySQL Private Service
+  - type: pserv
+    name: plantvision-mysql
+    plan: free
+    runtime: docker
+    dockerImage: mysql:8.0
+    disk:
+      name: mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        generate: true
+      - key: MYSQL_DATABASE
+        value: plantvision
+      - key: MYSQL_USER
+        value: plantvision_user
+      - key: MYSQL_PASSWORD
+        generate: true
+
   # Backend Java Spring Boot Web Service
   - type: web
     name: plantvision-backend
@@ -14,30 +28,29 @@ services:
     dockerfilePath: Dockerfile
     dockerContext: .
     envVars:
-      # Inject database connection variables dynamically from the database
+      # Inject database connection variables dynamically from the MySQL private service
       - key: DB_HOST
-        fromDatabase:
-          name: plantvision-db
+        fromService:
+          type: pserv
+          name: plantvision-mysql
           property: host
       - key: DB_PORT
-        fromDatabase:
-          name: plantvision-db
+        fromService:
+          type: pserv
+          name: plantvision-mysql
           property: port
       - key: DB_NAME
-        fromDatabase:
-          name: plantvision-db
-          property: database
+        value: plantvision
       - key: DB_USERNAME
-        fromDatabase:
-          name: plantvision-db
-          property: user
+        value: plantvision_user
       - key: DB_PASSWORD
-        fromDatabase:
-          name: plantvision-db
-          property: password
+        fromService:
+          type: pserv
+          name: plantvision-mysql
+          envVarKey: MYSQL_PASSWORD
       # Build the final JDBC URL using the injected host, port, and database name
       - key: DB_URL
-        value: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?ssl=true&sslmode=require
+        value: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       # CORS: Allow requests from the frontend static site
       - key: CORS_ALLOWED_ORIGINS
         value: https://plantvision-frontend.onrender.com
