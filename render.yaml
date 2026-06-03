@@ -20,7 +20,7 @@ services:
       - key: DB_NAME
         fromDatabase:
           name: plantvision-postgres
-          property: databaseName
+          property: database
       - key: DB_USERNAME
         fromDatabase:
           name: plantvision-postgres
@@ -57,4 +57,3 @@ databases:
   - name: plantvision-postgres
     plan: free
     databaseName: plant_store_db
-    user: postgres
