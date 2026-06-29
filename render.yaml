@@ -8,7 +8,7 @@ services:
     dockerfilePath: Dockerfile
     dockerContext: .
     envVars:
-      # Use manual dashboard values to connect to the existing PostgreSQL database
+      # Use manual dashboard values to connect to the existing MySQL database
       - key: DB_URL
         sync: false
       - key: DB_USERNAME
